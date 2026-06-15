@@ -1,11 +1,12 @@
-import { won, CARD, PageHead, Stat, Badge } from "@/components/ui";
+import Link from "next/link";
+import { won, PageHead, Stat, Badge } from "@/components/ui";
 
 const members = [
-  { name: "베리팜 김창업", biz: "신선식품", grade: "새싹", sales: 28400000, dist: 1842000, status: "정상", join: "01.25" },
-  { name: "오늘반찬 이사장", biz: "반찬", grade: "씨앗", sales: 12600000, dist: 720000, status: "정상", join: "03.12" },
-  { name: "수산직송 박대표", biz: "수산", grade: "나무", sales: 41200000, dist: 2880000, status: "정상", join: "11.08" },
-  { name: "정육왕 최사장", biz: "정육", grade: "씨앗", sales: 8900000, dist: 445000, status: "휴면", join: "04.20" },
-  { name: "베이커리온 정점주", biz: "베이커리", grade: "새싹", sales: 19800000, dist: 1188000, status: "정상", join: "02.15" },
+  { id: "1", name: "베리팜 김창업", biz: "신선식품", grade: "새싹", sales: 28400000, dist: 1842000, status: "정상", join: "01.25" },
+  { id: "2", name: "오늘반찬 이사장", biz: "반찬", grade: "씨앗", sales: 12600000, dist: 720000, status: "정상", join: "03.12" },
+  { id: "3", name: "수산직송 박대표", biz: "수산", grade: "나무", sales: 41200000, dist: 2880000, status: "정상", join: "11.08" },
+  { id: "4", name: "정육왕 최사장", biz: "정육", grade: "씨앗", sales: 8900000, dist: 445000, status: "휴면", join: "04.20" },
+  { id: "5", name: "베이커리온 정점주", biz: "베이커리", grade: "새싹", sales: 19800000, dist: 1188000, status: "정상", join: "02.15" },
 ];
 
 export default function Members() {
@@ -37,7 +38,9 @@ export default function Members() {
             {members.map((m) => (
               <tr key={m.name} className="border-b border-line/50 last:border-0 transition hover:bg-white/5">
                 <td className="px-5 py-3 font-medium">
-                  {m.name}
+                  <Link href={`/admin/members/${m.id}`} className="transition hover:text-brand">
+                    {m.name}
+                  </Link>
                   <div className="text-[11px] text-sub">가맹 {m.join}</div>
                 </td>
                 <td className="px-5 py-3 text-sub">{m.biz}</td>

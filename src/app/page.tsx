@@ -2,6 +2,7 @@ import Link from "next/link";
 import Logo from "@/components/Logo";
 import Cinema from "@/components/Cinema";
 import ThemeToggle from "@/components/ThemeToggle";
+import Simulator from "@/components/Simulator";
 
 const LOOP = [
   { icon: "🛍️", title: "수익 발생", desc: "창업자가 물건을 팔면 회사에 실제 수익이 쌓여요." },
@@ -44,12 +45,12 @@ export default function Home() {
             <a href="#how" className="transition hover:text-text">순환 구조</a>
             <a href="#roles" className="transition hover:text-text">참여자</a>
             <a href="#edu" className="transition hover:text-text">교육 지원</a>
-            <Link href="/dashboard" className="transition hover:text-text">창업자</Link>
+            <Link href="/login" className="transition hover:text-text">로그인</Link>
           </nav>
           <div className="flex items-center gap-3">
             <ThemeToggle />
             <Link
-              href="/dashboard"
+              href="/signup"
               className="rounded-xl bg-gradient-to-r from-[#2dd4a7] to-[#38bdf8] px-4 py-2 text-sm font-bold text-[#04140f] transition hover:brightness-105"
             >
               시작하기
@@ -128,6 +129,11 @@ export default function Home() {
             </div>
           ))}
         </div>
+      </section>
+
+      {/* 수익 시뮬레이터 */}
+      <section id="sim" className="mx-auto w-full max-w-4xl px-5 py-16">
+        <Simulator />
       </section>
 
       {/* 참여자 */}
