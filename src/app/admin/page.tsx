@@ -1,6 +1,3 @@
-import Link from "next/link";
-import Logo from "@/components/Logo";
-
 const won = (n: number) => "₩" + n.toLocaleString("ko-KR");
 
 // 데모 데이터
@@ -19,20 +16,7 @@ export default function Admin() {
   const totalSales = members.reduce((s, m) => s + m.sales, 0);
   const totalDist = members.reduce((s, m) => s + m.dist, 0);
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="border-b border-line/60 bg-bg/70 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-4">
-          <Link href="/">
-            <Logo />
-          </Link>
-          <div className="flex items-center gap-3 text-sm">
-            <span className="rounded-full bg-brand-2/15 px-3 py-1 text-xs font-bold text-brand-2">🏢 관리자</span>
-            <Link href="/dashboard" className="text-sub transition hover:text-text">창업자 →</Link>
-          </div>
-        </div>
-      </header>
-
-      <main className="mx-auto w-full max-w-5xl flex-1 px-5 py-8">
+    <div className="mx-auto max-w-5xl">
         <h1 className="text-2xl font-bold sm:text-3xl">정산 · 분배 관리</h1>
         <p className="mt-1 text-sm text-sub">2026년 6월 15일 · 오늘의 회사 이익을 집계하고 분배합니다.</p>
 
@@ -129,7 +113,6 @@ export default function Admin() {
           ⚠️ 분배금은 실제 발생한 회사 이익에서 회사 재량으로 지급되며, 확정 수익률·원금 보장이 아닙니다.
           수익이 없는 날은 분배되지 않을 수 있습니다.
         </p>
-      </main>
     </div>
   );
 }
