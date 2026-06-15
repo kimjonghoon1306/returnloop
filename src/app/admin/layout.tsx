@@ -8,6 +8,7 @@ const NAV: NavItem[] = [
   { href: "/admin/products", label: "상품·공동구매", icon: "📦" },
   { href: "/admin/suppliers", label: "제조사 관리", icon: "🏭" },
   { href: "/admin/education", label: "교육 콘텐츠", icon: "🎓" },
+  { href: "/admin/notifications", label: "알림", icon: "🔔" },
   { href: "/admin/settings", label: "설정", icon: "⚙️" },
 ];
 

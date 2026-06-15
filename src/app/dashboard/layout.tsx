@@ -8,6 +8,7 @@ const NAV: NavItem[] = [
   { href: "/dashboard/store", label: "내 매장", icon: "🏪" },
   { href: "/dashboard/education", label: "교육 센터", icon: "🎓" },
   { href: "/dashboard/consulting", label: "컨설팅", icon: "🤝" },
+  { href: "/dashboard/notifications", label: "알림", icon: "🔔" },
   { href: "/dashboard/settings", label: "설정", icon: "⚙️" },
 ];
 

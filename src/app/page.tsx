@@ -3,6 +3,7 @@ import Logo from "@/components/Logo";
 import Cinema from "@/components/Cinema";
 import ThemeToggle from "@/components/ThemeToggle";
 import Simulator from "@/components/Simulator";
+import ReplayIntro from "@/components/ReplayIntro";
 
 const LOOP = [
   { icon: "🛍️", title: "수익 발생", desc: "창업자가 물건을 팔면 회사에 실제 수익이 쌓여요." },
@@ -45,9 +46,14 @@ export default function Home() {
             <a href="#how" className="transition hover:text-text">순환 구조</a>
             <a href="#roles" className="transition hover:text-text">참여자</a>
             <a href="#edu" className="transition hover:text-text">교육 지원</a>
+            <a href="#faq" className="transition hover:text-text">FAQ</a>
+            <ReplayIntro className="transition hover:text-brand">🎬 대문 보기</ReplayIntro>
             <Link href="/login" className="transition hover:text-text">로그인</Link>
           </nav>
           <div className="flex items-center gap-3">
+            <ReplayIntro className="hidden rounded-lg border border-line px-3 py-1.5 text-xs text-sub transition hover:border-brand/50 hover:text-text sm:block lg:hidden">
+              🎬 대문
+            </ReplayIntro>
             <ThemeToggle />
             <Link
               href="/signup"
@@ -86,6 +92,9 @@ export default function Home() {
             관리자 정산 보기
           </Link>
         </div>
+        <ReplayIntro className="rise mt-4 text-sm text-sub transition hover:text-brand">
+          🎬 대문 영상 다시 보기
+        </ReplayIntro>
 
         {/* 순환 비주얼 */}
         <div className="rise relative mt-16 grid h-64 w-64 place-items-center sm:h-80 sm:w-80">
@@ -193,6 +202,57 @@ export default function Home() {
             <span key={t} className="rounded-full border border-line bg-surface/60 px-5 py-2.5 text-sm font-semibold">
               {t}
             </span>
+          ))}
+        </div>
+      </section>
+
+      {/* 후기 */}
+      <section className="mx-auto w-full max-w-6xl px-5 py-16">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">먼저 시작한 창업자들</h2>
+          <p className="mt-3 text-sub">소자본으로 시작해 매일 돌려받고 있어요.</p>
+        </div>
+        <div className="mt-12 grid gap-5 md:grid-cols-3">
+          {[
+            { name: "김○○", biz: "신선마켓 사장", text: "창업비 부담이 적어 망설임 없이 시작했어요. 매일 분배금이 들어오니 초기 버티는 힘이 달라요.", emoji: "🍎" },
+            { name: "이○○", biz: "반찬가게 운영", text: "쿠팡보다 싸게 떼와서 마진이 늘고, 포인트로 또 매입하니 진짜 선순환이에요.", emoji: "🥬" },
+            { name: "박○○", biz: "수산직송", text: "마케팅·AI 교육까지 받으니 온라인 매출이 두 배가 됐어요. 컨설턴트 도움이 컸어요.", emoji: "🐟" },
+          ].map((r) => (
+            <div key={r.name} className="lift rounded-2xl border border-line bg-surface/60 p-7">
+              <div className="flex gap-1 text-brand">{"★★★★★"}</div>
+              <p className="mt-4 text-sm leading-relaxed">&ldquo;{r.text}&rdquo;</p>
+              <div className="mt-5 flex items-center gap-3">
+                <span className="grid h-10 w-10 place-items-center rounded-full bg-surface-2 text-xl">{r.emoji}</span>
+                <div>
+                  <div className="text-sm font-bold">{r.name}</div>
+                  <div className="text-xs text-sub">{r.biz}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section id="faq" className="mx-auto w-full max-w-3xl px-5 py-16">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">자주 묻는 질문</h2>
+        </div>
+        <div className="mt-10 space-y-3">
+          {[
+            { q: "창업비는 얼마나 드나요?", a: "업종에 따라 다르지만, 기존 프랜차이즈보다 훨씬 낮은 소자본으로 시작할 수 있게 설계했어요. 창업비는 본인 사업의 판권·자산 비용입니다." },
+            { q: "분배금은 어떻게 받나요?", a: "회사에 실제 이익이 발생하면, 그 일부(1~5%)를 매일 회사 재량으로 분배해요. 현금 또는 쇼핑포인트로 받을 수 있어요. 수익이 없는 날은 분배되지 않을 수 있어요." },
+            { q: "쇼핑포인트는 어디에 쓰나요?", a: "공동구매 매입에 사용해 쿠팡보다 싸게 상품을 떼올 수 있어요. 충전 시 보너스도 드려요." },
+            { q: "정말 매일 돈을 받을 수 있나요?", a: "확정 수익률·원금 보장은 아니에요. 실제 회사 이익이 있을 때 회사 재량으로 분배하는 구조라, 사업이 잘 될수록 함께 커집니다." },
+            { q: "교육·컨설팅도 지원되나요?", a: "네. 온라인 마케팅·최신 AI 활용 교육과 1:1 프랜차이즈 컨설팅을 지원해 초기 정착을 돕습니다." },
+          ].map((f) => (
+            <details key={f.q} className="group rounded-2xl border border-line bg-surface/60 p-5">
+              <summary className="flex cursor-pointer items-center justify-between font-semibold">
+                {f.q}
+                <span className="text-brand transition group-open:rotate-45">+</span>
+              </summary>
+              <p className="mt-3 text-sm leading-relaxed text-sub">{f.a}</p>
+            </details>
           ))}
         </div>
       </section>
