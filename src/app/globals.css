@@ -2,17 +2,17 @@
 
 :root,
 :root[data-theme="dark"] {
-  --bg: #070b10;
-  --surface: #0e151d;
-  --surface-2: #131d27;
-  --line: rgba(255, 255, 255, 0.08);
-  --text: #e8eef3;
-  --sub: #8ea0ad;
-  --brand: #2dd4a7;     /* 에메랄드 — 수익/순환 */
-  --brand-2: #38bdf8;   /* 시안 — 신뢰/흐름 */
+  --bg: #0d1424;          /* 딥 네이비 잉크 — 까맣지 않고 깊은 남색 */
+  --surface: #161f33;     /* 카드 — 살짝 밝은 네이비 */
+  --surface-2: #1f2a42;   /* 더 밝은 면 */
+  --line: rgba(150, 180, 230, 0.14);
+  --text: #eef3fb;
+  --sub: #9aa9c4;
+  --brand: #34e0b0;       /* 에메랄드(살짝 밝게) */
+  --brand-2: #4cc4ff;     /* 시안(살짝 밝게) */
   --brand-ink: #04140f;
-  --aura-1: rgba(45, 212, 167, 0.14);
-  --aura-2: rgba(56, 189, 248, 0.12);
+  --aura-1: rgba(52, 224, 176, 0.16);
+  --aura-2: rgba(76, 196, 255, 0.16);
 }
 
 /* ☀️ 라이트 모드 */
@@ -142,7 +142,7 @@ body::before {
   z-index: 100;
   display: grid;
   place-items: center;
-  background: radial-gradient(120% 90% at 50% 0%, #0b1622, #04070b 70%);
+  background: radial-gradient(120% 90% at 50% 0%, #1a2742, #0a1120 72%);
   overflow: hidden;
   text-align: center;
   padding: 24px;
@@ -153,6 +153,13 @@ body::before {
 :root[data-theme="blue"] .cine {
   background: radial-gradient(120% 90% at 50% 0%, #f3f8ff, #d6e6ff 70%);
 }
+/* 라이트/블루에선 궤도·입자를 진한 브랜드색으로 또렷하게 (어르신 가독성) */
+:root[data-theme="light"] .cine-orbit.r1,
+:root[data-theme="blue"] .cine-orbit.r1 { border-color: rgba(16, 160, 120, 0.45); }
+:root[data-theme="light"] .cine-orbit.r2,
+:root[data-theme="blue"] .cine-orbit.r2 { border-color: rgba(14, 130, 200, 0.4); }
+:root[data-theme="light"] .cine-orbit.r3,
+:root[data-theme="blue"] .cine-orbit.r3 { border-color: rgba(16, 160, 120, 0.3); }
 .cine.out {
   animation: cineOut 0.8s cubic-bezier(0.7, 0, 0.84, 0) forwards;
 }
@@ -284,9 +291,106 @@ body::before {
   border-color: var(--brand);
 }
 
+/* ════════ 화려한 인트로 효과 ════════ */
+
+/* 씬 진입: 펼쳐지듯 등장 */
+.scene.on .cine-stage {
+  animation: cineUnfold 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes cineUnfold {
+  0% { opacity: 0; transform: perspective(900px) rotateX(35deg) scale(0.8); }
+  100% { opacity: 1; transform: perspective(900px) rotateX(0) scale(1); }
+}
+
+/* 다중 회전 링 (속도·방향 제각각) */
+.cine-orbit {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.cine-orbit.r1 { border: 2px dashed rgba(45, 212, 167, 0.35); animation: spin-loop 16s linear infinite; }
+.cine-orbit.r2 { border: 1px solid rgba(56, 189, 248, 0.25); animation: spin-loop 26s linear infinite reverse; }
+.cine-orbit.r3 { border: 1px dotted rgba(45, 212, 167, 0.2); animation: spin-loop 40s linear infinite; }
+
+/* 궤도를 도는 아이콘 — 날아다니는 느낌 */
+.cine-fly {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  animation: orbit linear infinite;
+}
+@keyframes orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.cine-fly > span {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  height: 48px;
+  width: 48px;
+  border-radius: 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  font-size: 22px;
+  box-shadow: 0 8px 30px -8px rgba(45, 212, 167, 0.5);
+  /* 아이콘이 회전축과 반대로 돌아 똑바로 보이게 */
+  animation: counter-orbit linear infinite;
+}
+@keyframes counter-orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
+/* 떠다니는 빛 입자 */
+.cine-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--brand), transparent 70%);
+  opacity: 0;
+  animation: floatUp linear infinite;
+}
+@keyframes floatUp {
+  0% { opacity: 0; transform: translateY(40px) scale(0.5); }
+  20% { opacity: 0.8; }
+  80% { opacity: 0.6; }
+  100% { opacity: 0; transform: translateY(-120px) scale(1.2); }
+}
+
+/* 중앙 코어 펄스 */
+.cine-core {
+  animation: corePulse 2.4s ease-in-out infinite;
+}
+@keyframes corePulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(45, 212, 167, 0.5); }
+  50% { transform: scale(1.06); box-shadow: 0 0 60px 10px rgba(45, 212, 167, 0.25); }
+}
+
+/* 글자 그라데이션 흐름 */
+.cine-shine {
+  background: linear-gradient(100deg, var(--brand), var(--brand-2), var(--brand));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shine 3s linear infinite;
+}
+@keyframes shine {
+  to { background-position: 200% center; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .cine-bg,
-  .cine-ring {
+  .cine-ring,
+  .cine-orbit,
+  .cine-fly,
+  .cine-fly > span,
+  .cine-particle,
+  .cine-core,
+  .cine-shine,
+  .scene.on .cine-stage {
     animation: none;
   }
 }

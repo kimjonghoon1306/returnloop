@@ -52,18 +52,58 @@ export default function Cinema() {
         건너뛰기 ✕
       </button>
 
-      {/* 회전 링 (전 씬 공통 배경) */}
-      <div className="cine-ring" style={{ width: 520, height: 520, opacity: 0.5 }} />
-      <div className="cine-ring" style={{ width: 720, height: 720, opacity: 0.25, animationDirection: "reverse" }} />
+      {/* 화려한 배경 — 다중 회전 궤도 + 날아다니는 아이콘 + 빛 입자 */}
+      <div className="cine-orbit r1" style={{ width: 460, height: 460 }} />
+      <div className="cine-orbit r2" style={{ width: 680, height: 680 }} />
+      <div className="cine-orbit r3" style={{ width: 900, height: 900 }} />
+
+      {/* 궤도를 도는 아이콘들 (반지름·속도·시작각 제각각) */}
+      {[
+        { e: "🛍️", radius: 230, dur: 18, start: 0 },
+        { e: "💸", radius: 230, dur: 18, start: 120 },
+        { e: "🎁", radius: 230, dur: 18, start: 240 },
+        { e: "🤝", radius: 340, dur: 28, start: 60 },
+        { e: "🏪", radius: 340, dur: 28, start: 200 },
+        { e: "🤖", radius: 340, dur: 28, start: 320 },
+      ].map((f, i) => (
+        <div
+          key={i}
+          className="cine-fly"
+          style={{ animationDuration: `${f.dur}s`, transform: `rotate(${f.start}deg)` }}
+        >
+          <span style={{ left: f.radius, marginLeft: -24, marginTop: -24, animationDuration: `${f.dur}s` }}>
+            {f.e}
+          </span>
+        </div>
+      ))}
+
+      {/* 떠다니는 빛 입자 */}
+      {Array.from({ length: 14 }).map((_, i) => {
+        const size = 4 + (i % 4) * 3;
+        return (
+          <span
+            key={"p" + i}
+            className="cine-particle"
+            style={{
+              width: size,
+              height: size,
+              left: `${(i * 37) % 100}%`,
+              bottom: `${(i * 23) % 80}%`,
+              animationDuration: `${6 + (i % 5)}s`,
+              animationDelay: `${(i % 7) * 0.6}s`,
+            }}
+          />
+        );
+      })}
 
       {/* 씬 0 — 로고 */}
       <div className={"scene" + (scene === 0 ? " on" : "")}>
-        <div>
-          <div className="cine-pop mx-auto mb-6 grid h-24 w-24 place-items-center rounded-3xl bg-gradient-to-br from-[#2dd4a7] to-[#38bdf8] text-5xl shadow-2xl">
+        <div className="cine-stage">
+          <div className="cine-pop cine-core mx-auto mb-6 grid h-24 w-24 place-items-center rounded-3xl bg-gradient-to-br from-[#2dd4a7] to-[#38bdf8] text-5xl shadow-2xl">
             ♻️
           </div>
           <h1 className="cine-rise d1 text-5xl font-extrabold tracking-tight sm:text-7xl">
-            Return<span className="grad">Loop</span>
+            Return<span className="cine-shine">Loop</span>
           </h1>
           <p className="cine-rise d2 mt-4 text-base text-sub sm:text-lg">버는 만큼 돌려주고, 돌려준 만큼 다시 큰다</p>
         </div>
@@ -71,7 +111,7 @@ export default function Cinema() {
 
       {/* 씬 1 — 캐치프레이즈 */}
       <div className={"scene" + (scene === 1 ? " on" : "")}>
-        <div>
+        <div className="cine-stage">
           <p className="cine-rise text-sm font-bold tracking-[0.3em] text-brand">RETURNLOOP 창업</p>
           <h2 className="cine-rise d1 mt-4 text-4xl font-extrabold leading-tight sm:text-6xl">
             창업 한 번으로<br />
@@ -83,8 +123,8 @@ export default function Cinema() {
 
       {/* 씬 2 — 쇼핑몰 혜택 */}
       <div className={"scene" + (scene === 2 ? " on" : "")}>
-        <div>
-          <div className="cine-pop p1 mx-auto mb-6 grid h-20 w-20 place-items-center rounded-2xl bg-surface text-4xl shadow-xl">
+        <div className="cine-stage">
+          <div className="cine-pop cine-core p1 mx-auto mb-6 grid h-20 w-20 place-items-center rounded-2xl bg-surface text-4xl shadow-xl">
             🛍️
           </div>
           <h2 className="cine-rise d1 text-4xl font-extrabold sm:text-6xl">
@@ -97,7 +137,7 @@ export default function Cinema() {
 
       {/* 씬 3 — 프랜차이즈 컨설팅 & 창업 혜택 */}
       <div className={"scene" + (scene === 3 ? " on" : "")}>
-        <div className="w-full max-w-3xl">
+        <div className="cine-stage w-full max-w-3xl">
           <h2 className="cine-rise text-3xl font-extrabold sm:text-5xl">
             전문 <span className="grad">프랜차이즈 컨설턴트</span>가 함께
           </h2>
@@ -119,7 +159,7 @@ export default function Cinema() {
 
       {/* 씬 4 — 마케팅 & AI 교육 */}
       <div className={"scene" + (scene === 4 ? " on" : "")}>
-        <div className="w-full max-w-3xl">
+        <div className="cine-stage w-full max-w-3xl">
           <p className="cine-rise text-sm font-bold tracking-[0.3em] text-brand">교육까지 무료 지원</p>
           <h2 className="cine-rise d1 mt-4 text-3xl font-extrabold sm:text-5xl">
             <span className="grad">온라인 마케팅</span> &amp; <span className="grad">최신 AI 교육</span>
@@ -141,8 +181,8 @@ export default function Cinema() {
 
       {/* 씬 5 — 피날레 */}
       <div className={"scene" + (scene === 5 ? " on" : "")}>
-        <div>
-          <div className="cine-pop mx-auto mb-7 grid h-20 w-20 place-items-center rounded-full bg-gradient-to-br from-[#2dd4a7] to-[#38bdf8] text-4xl shadow-2xl loop-rotate">
+        <div className="cine-stage">
+          <div className="cine-pop cine-core mx-auto mb-7 grid h-20 w-20 place-items-center rounded-full bg-gradient-to-br from-[#2dd4a7] to-[#38bdf8] text-4xl shadow-2xl loop-rotate">
             ♻️
           </div>
           <h2 className="cine-rise d1 text-4xl font-extrabold leading-tight sm:text-6xl">
