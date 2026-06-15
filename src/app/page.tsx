@@ -1,5 +1,7 @@
 import Link from "next/link";
 import Logo from "@/components/Logo";
+import Cinema from "@/components/Cinema";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const LOOP = [
   { icon: "🛍️", title: "수익 발생", desc: "창업자가 물건을 팔면 회사에 실제 수익이 쌓여요." },
@@ -32,21 +34,27 @@ const ROLES = [
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col">
+      <Cinema />
+
       {/* 헤더 */}
       <header className="sticky top-0 z-30 border-b border-line/60 bg-bg/70 backdrop-blur-xl">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
           <Logo />
-          <nav className="hidden items-center gap-7 text-sm text-sub sm:flex">
+          <nav className="hidden items-center gap-7 text-sm text-sub lg:flex">
             <a href="#how" className="transition hover:text-text">순환 구조</a>
             <a href="#roles" className="transition hover:text-text">참여자</a>
+            <a href="#edu" className="transition hover:text-text">교육 지원</a>
             <Link href="/dashboard" className="transition hover:text-text">창업자</Link>
           </nav>
-          <Link
-            href="/dashboard"
-            className="rounded-xl bg-gradient-to-r from-[#2dd4a7] to-[#38bdf8] px-4 py-2 text-sm font-bold text-[#04140f] transition hover:brightness-105"
-          >
-            시작하기
-          </Link>
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+            <Link
+              href="/dashboard"
+              className="rounded-xl bg-gradient-to-r from-[#2dd4a7] to-[#38bdf8] px-4 py-2 text-sm font-bold text-[#04140f] transition hover:brightness-105"
+            >
+              시작하기
+            </Link>
+          </div>
         </div>
       </header>
 
@@ -145,6 +153,40 @@ export default function Home() {
                 ))}
               </ul>
             </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 교육 지원 */}
+      <section id="edu" className="mx-auto w-full max-w-6xl px-5 py-16">
+        <div className="text-center">
+          <span className="rounded-full bg-brand/15 px-3 py-1 text-xs font-bold text-brand">무료 지원</span>
+          <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
+            창업만 하면 <span className="grad">교육까지 책임</span>집니다
+          </h2>
+          <p className="mt-3 text-sub">물건만 떼주는 게 아니라, 잘 팔리게 만드는 법까지 가르쳐 드려요.</p>
+        </div>
+        <div className="mt-12 grid gap-5 md:grid-cols-2">
+          <div className="lift rounded-2xl border border-line bg-surface/60 p-7">
+            <div className="mb-4 grid h-12 w-12 place-items-center rounded-xl bg-surface-2 text-2xl">📈</div>
+            <h3 className="text-xl font-bold">온라인 마케팅 교육</h3>
+            <p className="mt-2 text-sm leading-relaxed text-sub">
+              SNS·검색·광고로 손님을 부르는 실전 마케팅을 처음부터 끝까지. 혼자 헤매지 않게 단계별로 가르쳐 드려요.
+            </p>
+          </div>
+          <div className="lift rounded-2xl border border-line bg-surface/60 p-7">
+            <div className="mb-4 grid h-12 w-12 place-items-center rounded-xl bg-surface-2 text-2xl">🤖</div>
+            <h3 className="text-xl font-bold">최신 AI 활용 교육</h3>
+            <p className="mt-2 text-sm leading-relaxed text-sub">
+              AI로 상세페이지·콘텐츠·고객응대·운영을 자동화하는 법. 남들보다 빠르게, 적은 인력으로 더 많이 파세요.
+            </p>
+          </div>
+        </div>
+        <div className="mt-5 flex flex-wrap justify-center gap-3">
+          {["🤝 1:1 창업 컨설팅", "🏪 검증된 프랜차이즈 연결", "📦 공급망·물류 지원", "💸 매일 운영 지원금"].map((t) => (
+            <span key={t} className="rounded-full border border-line bg-surface/60 px-5 py-2.5 text-sm font-semibold">
+              {t}
+            </span>
           ))}
         </div>
       </section>

@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
-:root {
+:root,
+:root[data-theme="dark"] {
   --bg: #070b10;
   --surface: #0e151d;
   --surface-2: #131d27;
@@ -10,6 +11,38 @@
   --brand: #2dd4a7;     /* 에메랄드 — 수익/순환 */
   --brand-2: #38bdf8;   /* 시안 — 신뢰/흐름 */
   --brand-ink: #04140f;
+  --aura-1: rgba(45, 212, 167, 0.14);
+  --aura-2: rgba(56, 189, 248, 0.12);
+}
+
+/* ☀️ 라이트 모드 */
+:root[data-theme="light"] {
+  --bg: #f5f8fb;
+  --surface: #ffffff;
+  --surface-2: #eef3f8;
+  --line: rgba(10, 30, 50, 0.10);
+  --text: #0e1822;
+  --sub: #5a6b78;
+  --brand: #10b981;
+  --brand-2: #0ea5e9;
+  --brand-ink: #ffffff;
+  --aura-1: rgba(16, 185, 129, 0.10);
+  --aura-2: rgba(14, 165, 233, 0.10);
+}
+
+/* 💙 블루 라이트 모드 */
+:root[data-theme="blue"] {
+  --bg: #eaf2ff;
+  --surface: #ffffff;
+  --surface-2: #dbe8fc;
+  --line: rgba(30, 80, 160, 0.12);
+  --text: #0a1f3c;
+  --sub: #4a6285;
+  --brand: #2563eb;
+  --brand-2: #06b6d4;
+  --brand-ink: #ffffff;
+  --aura-1: rgba(37, 99, 235, 0.12);
+  --aura-2: rgba(6, 182, 212, 0.12);
 }
 
 @theme inline {
@@ -38,6 +71,7 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  transition: background 0.4s ease, color 0.4s ease;
 }
 
 /* 배경 오로라 글로우 (순환 무드) */
@@ -47,8 +81,8 @@ body::before {
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(60% 50% at 75% 0%, rgba(45, 212, 167, 0.14), transparent 70%),
-    radial-gradient(50% 45% at 15% 100%, rgba(56, 189, 248, 0.12), transparent 70%);
+    radial-gradient(60% 50% at 75% 0%, var(--aura-1), transparent 70%),
+    radial-gradient(50% 45% at 15% 100%, var(--aura-2), transparent 70%);
   pointer-events: none;
 }
 
@@ -99,4 +133,160 @@ body::before {
   transform: translateY(-4px);
   border-color: rgba(45, 212, 167, 0.4);
   box-shadow: 0 18px 50px -20px rgba(45, 212, 167, 0.35);
+}
+
+/* ════════ 시네마틱 인트로 ════════ */
+.cine {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(120% 90% at 50% 0%, #0b1622, #04070b 70%);
+  overflow: hidden;
+  text-align: center;
+  padding: 24px;
+}
+:root[data-theme="light"] .cine {
+  background: radial-gradient(120% 90% at 50% 0%, #ffffff, #e6eef6 70%);
+}
+:root[data-theme="blue"] .cine {
+  background: radial-gradient(120% 90% at 50% 0%, #f3f8ff, #d6e6ff 70%);
+}
+.cine.out {
+  animation: cineOut 0.8s cubic-bezier(0.7, 0, 0.84, 0) forwards;
+}
+@keyframes cineOut {
+  to { opacity: 0; transform: scale(1.08); visibility: hidden; }
+}
+
+/* 인트로 배경 흐르는 글로우 */
+.cine-bg {
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(40% 40% at 30% 30%, rgba(45, 212, 167, 0.25), transparent 70%),
+    radial-gradient(40% 40% at 70% 70%, rgba(56, 189, 248, 0.22), transparent 70%);
+  filter: blur(40px);
+  animation: cineFlow 12s ease-in-out infinite alternate;
+}
+@keyframes cineFlow {
+  from { transform: translate(-4%, -2%) rotate(0deg); }
+  to { transform: translate(4%, 3%) rotate(8deg); }
+}
+
+/* 씬 공통 */
+.scene {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  transform: scale(1.04);
+  filter: blur(8px);
+  transition: opacity 0.7s ease, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), filter 0.7s ease;
+  pointer-events: none;
+}
+.scene.on {
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0);
+}
+
+/* 글자 떠오름 */
+.cine-rise {
+  opacity: 0;
+  transform: translateY(26px);
+  filter: blur(10px);
+}
+.scene.on .cine-rise {
+  animation: cineRise 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.scene.on .cine-rise.d1 { animation-delay: 0.15s; }
+.scene.on .cine-rise.d2 { animation-delay: 0.3s; }
+.scene.on .cine-rise.d3 { animation-delay: 0.45s; }
+@keyframes cineRise {
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+/* 아이콘 팝 */
+.cine-pop {
+  opacity: 0;
+  transform: scale(0.5);
+}
+.scene.on .cine-pop {
+  animation: cinePop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+.scene.on .cine-pop.p1 { animation-delay: 0.1s; }
+.scene.on .cine-pop.p2 { animation-delay: 0.25s; }
+.scene.on .cine-pop.p3 { animation-delay: 0.4s; }
+.scene.on .cine-pop.p4 { animation-delay: 0.55s; }
+@keyframes cinePop {
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* 큰 회전 링 */
+.cine-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px dashed rgba(45, 212, 167, 0.35);
+  animation: spin-loop 18s linear infinite;
+}
+
+/* 진행바 */
+.cine-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #2dd4a7, #38bdf8);
+  transition: width 0.3s linear;
+  z-index: 110;
+}
+.cine-dots {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 110;
+}
+.cine-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(150, 170, 185, 0.3);
+  transition: all 0.3s;
+}
+.cine-dot.on {
+  width: 22px;
+  border-radius: 5px;
+  background: linear-gradient(90deg, #2dd4a7, #38bdf8);
+}
+.cine-skip {
+  position: absolute;
+  top: 22px;
+  right: 24px;
+  z-index: 110;
+  font-size: 13px;
+  color: var(--sub);
+  border: 1px solid var(--line);
+  background: rgba(127, 127, 127, 0.08);
+  border-radius: 999px;
+  padding: 7px 16px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: all 0.2s;
+}
+.cine-skip:hover {
+  color: var(--text);
+  border-color: var(--brand);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cine-bg,
+  .cine-ring {
+    animation: none;
+  }
 }
